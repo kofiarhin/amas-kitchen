@@ -1,12 +1,19 @@
 const express = require("express");
+const cors = require("cors");
 
 const app = express();
 
 // setup middleware
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
+
 app.use(express.json());
 
 app.get("/", async (req, res, next) => {
-  return res.json({ message: "hello world" });
+  return res.json({ message: "Welcome to Amas Kitchen" });
 });
 
 app.get("/health", (req, res) => {
