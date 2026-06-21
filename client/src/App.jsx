@@ -45,14 +45,47 @@ const gallery = [
 
 export default function App() {
   useEffect(() => {
-    const getHealth = async () => {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/health`);
-      const data = await res.json();
+    const apiUrl = import.meta.env.VITE_API_URL;
 
-      console.log({ data });
+    if (!apiUrl) {
+      if (import.meta.env.DEV) {
+        console.warn("VITE_API_URL is not set. Skipping API health check.");
+      }
+
+      return undefined;
+    }
+
+    const controller = new AbortController();
+
+    const getHealth = async () => {
+      try {
+        const res = await fetch(`${apiUrl}/health`, {
+          signal: controller.signal,
+        });
+
+        if (!res.ok) {
+          throw new Error(`Health check failed with status ${res.status}`);
+        }
+
+        const data = await res.json();
+
+        if (import.meta.env.DEV) {
+          console.log({ data });
+        }
+      } catch (error) {
+        if (error.name === "AbortError") {
+          return;
+        }
+
+        if (import.meta.env.DEV) {
+          console.error("Health check failed:", error);
+        }
+      }
     };
 
     getHealth();
+
+    return () => controller.abort();
   }, []);
 
   return (
