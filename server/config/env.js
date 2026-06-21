@@ -10,13 +10,8 @@ const baseSchema = z.object({
   ADMIN_PASSWORD_HASH: z.string().min(1, "ADMIN_PASSWORD_HASH is required"),
   JWT_SECRET: z.string().min(16, "JWT_SECRET must contain at least 16 characters"),
   JWT_EXPIRES_IN: z.string().default("7d"),
-  SMTP_HOST: z.string().optional(),
-  SMTP_PORT: z.coerce.number().int().positive().default(587),
-  SMTP_SECURE: z.enum(["true", "false"]).default("false"),
-  SMTP_USER: z.string().optional(),
-  SMTP_PASS: z.string().optional(),
-  SMTP_FROM: z.string().email().optional(),
-  ORDER_NOTIFICATION_EMAIL: z.string().email().optional(),
+  TELEGRAM_BOT_TOKEN: z.string().min(1, "TELEGRAM_BOT_TOKEN is required"),
+  TELEGRAM_CHAT_ID: z.string().min(1, "TELEGRAM_CHAT_ID is required"),
 });
 
 function parseDeliveryFee(value) {
@@ -41,14 +36,9 @@ function parseConfig(environment = process.env) {
     adminPasswordHash: parsed.ADMIN_PASSWORD_HASH,
     jwtSecret: parsed.JWT_SECRET,
     jwtExpiresIn: parsed.JWT_EXPIRES_IN,
-    smtp: {
-      host: parsed.SMTP_HOST,
-      port: parsed.SMTP_PORT,
-      secure: parsed.SMTP_SECURE === "true",
-      user: parsed.SMTP_USER,
-      pass: parsed.SMTP_PASS,
-      from: parsed.SMTP_FROM,
-      recipient: parsed.ORDER_NOTIFICATION_EMAIL || parsed.ADMIN_EMAIL,
+    telegram: {
+      botToken: parsed.TELEGRAM_BOT_TOKEN,
+      chatId: parsed.TELEGRAM_CHAT_ID,
     },
   };
 }

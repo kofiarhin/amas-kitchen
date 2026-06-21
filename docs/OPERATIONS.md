@@ -3,7 +3,7 @@
 ## Local setup
 
 1. Use Node.js 20 or newer and a MongoDB replica set/service compatible with Mongoose 9.
-2. Copy `.env.example` to `.env` and replace every security, database, origin, and SMTP value.
+2. Copy `.env.example` to `.env` and replace every security, database, origin, and Telegram value.
 3. Generate the admin password hash without storing the plaintext password:
 
    ```powershell
@@ -22,8 +22,8 @@
 - `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH`: the single admin identity and bcrypt hash.
 - `JWT_SECRET`: a long, randomly generated secret; rotate by redeploying and forcing sessions to expire.
 - `JWT_EXPIRES_IN`: token duration, normally `7d`.
-- `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`: SMTP relay details.
-- `ORDER_NOTIFICATION_EMAIL`: recipient for every new-order email.
+- `TELEGRAM_BOT_TOKEN`: token issued by BotFather for the order-notification bot.
+- `TELEGRAM_CHAT_ID`: destination user, group, or channel chat ID for every new-order message.
 - Client: set `VITE_API_URL` to the public HTTPS API origin before `npm run build --prefix client`.
 
 Never commit `.env`. Restrict production environment access and rotate any exposed value immediately.
@@ -41,7 +41,7 @@ Never commit `.env`. Restrict production environment access and rotate any expos
 - `GET /health` returns HTTP 200 with `status: ok` and `service: amas-kitchen-api` when the process is serving requests.
 - A platform health check should call it every 30–60 seconds and alert after repeated failures.
 - Monitor API latency against the PRD's under-500 ms target, database errors, HTTP 5xx rate, login throttling, and the `Order notification failed` log.
-- SMTP failure does not fail an order. Staff must use the dashboard as the authoritative order queue.
+- Telegram failure does not fail an order. Staff must use the dashboard as the authoritative order queue.
 
 ## Database backups
 

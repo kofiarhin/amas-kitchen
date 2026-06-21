@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-06-21T05:17:25+01:00",
+  "updatedAt": "2026-06-21T07:12:04+01:00",
   "events": [
     {
       "id": "history-amas-001",
@@ -17,6 +17,22 @@
       "stage": "complete",
       "summary": "Completed five-task PRD implementation, verification, review, Fallow, release notes, summary, and health check.",
       "artifacts": ["_workflow/runs/dev/summary.md", "_workflow/runs/dev/release-notes.md", ".workflow/fallow-audit.md"]
+    },
+    {
+      "id": "history-amas-003",
+      "timestamp": "2026-06-21T06:58:41+01:00",
+      "runId": "dev",
+      "stage": "specification-approval",
+      "summary": "Resolved the prior SMTP decision in favor of explicit Telegram-only notifications; saved intake, normalized request, and detailed specification.",
+      "artifacts": ["_workflow/runs/dev/request.md", "_workflow/runs/dev/handoff.md", "_workflow/runs/dev/spec.md", "_workflow/project-brain/conflicts.json"]
+    },
+    {
+      "id": "history-amas-004",
+      "timestamp": "2026-06-21T07:12:04+01:00",
+      "runId": "dev",
+      "stage": "complete",
+      "summary": "Completed Telegram-only notifications, verification, review, coverage-aware Fallow, release notes, summary, and handoff.",
+      "artifacts": ["_workflow/runs/dev/summary.md", "_workflow/runs/dev/verification.md", "_workflow/runs/dev/review.md", ".workflow/fallow-audit.md"]
     }
   ]
 }

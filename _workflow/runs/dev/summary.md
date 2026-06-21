@@ -1,44 +1,21 @@
 # Workflow Summary
 
-## Request and sources
+## Request
 
-- Request: Implement `Amas-Kitchen-PRD.md` as a complete MERN MVP.
-- Spec: `_workflow/runs/dev/spec.md` (explicitly approved before planning).
-- Plan: `_workflow/runs/dev/tasks.md`.
-- Review: `_workflow/runs/dev/review.md`.
+Replace SMTP/Nodemailer order notifications with Telegram-only Bot API notifications while preserving the existing route/service flow.
 
-## Tasks completed
+## Result
 
-- TASK-001: Validated runtime/data/public catalog and repeatable seed.
-- TASK-002: Guest menu/cart/checkout with atomic, idempotent, server-authoritative ordering and SMTP isolation.
-- TASK-003: Secure single-admin auth and order fulfilment.
-- TASK-004: Protected menu, image URL/addon, zone, and settings management.
-- TASK-005: Operations docs, full verification, review, dependency audit, Fallow, release/summary/health artifacts.
-
-Each task completed Build -> Refine -> Polish with recorded Red -> Green -> Refactor evidence. Failing tests were observed before implementation; passing verification was rerun after implementation/refactor.
-
-## Files and architecture
-
-The static client/minimal API became a two-surface React application and layered Express/Mongoose REST API. New server config, models, middleware, routes, services, validation, scripts, and tests were added alongside client cart/admin/testing modules, responsive UI, environment examples, and operations documentation.
+TASK-006 completed Build -> Refine -> Polish with test-first Red -> Green -> Refactor evidence. The notifier now sends the four confirmed plain-text fields through Telegram `sendMessage`, validates HTTP and API outcomes, and sanitizes network errors. Config, environment examples, dependency manifests, tests, and current docs use Telegram only.
 
 ## Verification
 
-- `npm test`: 11 suites/29 tests passed.
-- `npm test --prefix client`: 3 files/5 tests passed.
-- `npm run lint --prefix client`: passed.
-- `npm run build --prefix client`: passed.
-- `npm audit --omit=dev --json`: zero production vulnerabilities.
-- `git diff --check`: passed.
-- Fallow: PARTIAL with zero final dead-code/dependency/import/cycle/duplication issues and documented complexity targets.
+- 37 server tests and 5 client tests pass.
+- Client lint and production build pass.
+- Production dependency audit has zero vulnerabilities.
+- Fallow verdict: PASSED with coverage; zero changed-code findings.
+- Route injection and order-service invocation/catch files are unchanged.
 
-## Acceptance and recovery
+## Operational follow-up
 
-- [x] PRD customer, admin, and system behaviors are implemented within repository-verifiable scope.
-- [x] Deployment readiness, environment, seed, health, SMTP failure, and 30-day backup obligations are documented.
-- [x] Applied skill: design-taste-frontend; UI compliance recorded in task evidence, review, verification, release notes, summary, and health check.
-- Failure recovery corrected root Jest collecting client JSX, a late idempotency reservation race, missing dev dependency declaration, unused dependency/export/file findings, and Fallow test entry-point discovery.
-- External production service checks are documented rather than falsely marked executed.
-
-## Workflow health
-
-Passed — required artifacts, approval ordering, task evidence, verification, review, justified PARTIAL Fallow verdict, release notes, summary, and dirty-worktree/diff audits are complete.
+Operators must configure `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` and verify one non-production notification. No bot/chat provisioning or live external call was performed by this workflow.

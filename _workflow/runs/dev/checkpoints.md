@@ -50,3 +50,24 @@ Append a checkpoint at intake completion, spec save, task-plan save, each comple
 - Artifacts changed: Full application, tests/docs, review, verification, Fallow, release notes, summary, handoff.
 - Open questions: Production infrastructure values and pre-launch external checks only.
 - Next action: Review changes and commit with `feat: implement Ama's Kitchen ordering MVP`.
+
+## 2026-06-21T06:58:41+01:00 — Telegram intake complete, conflict resolved, and spec saved
+
+- Memory summary: Explicit Telegram-only request supersedes the prior SMTP/Nodemailer decision; notifier fields and failure behavior are confirmed.
+- Artifacts changed: `request.md`, `handoff.md`, `spec.md`, `brain.json`, project brain projection/history/conflicts
+- Open questions: None; live bot and chat credentials remain operator inputs.
+- Next action: Obtain explicit user approval of `_workflow/runs/dev/spec.md`.
+
+## 2026-06-21T07:03:00+01:00 — Telegram task plan saved
+
+- Memory summary: Spec explicitly approved; one vertical task is Ready with three test-first iterations.
+- Artifacts changed: `tasks.md`, `handoff.md`, `activity.md`
+- Open questions: None.
+- Next action: Execute TASK-006 Iteration 1 Build.
+
+## 2026-06-21T07:12:04+01:00 — TASK-006 and workflow complete
+
+- Memory summary: Telegram-only notifications implemented; SMTP/Nodemailer removed; all automated checks and coverage-aware Fallow passed.
+- Artifacts changed: Application/config/tests/docs/manifests, task/progress/handoff, review, verification, Fallow, release notes, summary, Project Brain.
+- Open questions: Live bot/chat credentials and external smoke test only.
+- Next action: Configure Telegram credentials and review/commit the changes.

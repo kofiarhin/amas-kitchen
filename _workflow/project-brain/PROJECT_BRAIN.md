@@ -2,37 +2,37 @@
 
 > Generated projection of `_workflow/project-brain/project.json`; JSON is authoritative.
 
-- Updated: 2026-06-21T06:05:00+01:00
+- Updated: 2026-06-21T07:12:04+01:00
 - Workflow: complete (`complete`)
 - Next stage: user review
 
 ## Active Goal
 
-The complete Ama's Kitchen delivery-ordering MVP defined in `Amas-Kitchen-PRD.md` is implemented on run `dev`.
+The Ama's Kitchen MVP now uses Telegram-only new-order notifications.
 
 ## Requirements And Constraints
 
-- PRD v3.0 customer, admin, and system behavior is implemented for repository-verifiable scope.
-- Architecture remains React/Vite, Express, and MongoDB/Mongoose.
-- Deployment/infrastructure remain excluded; deployment readiness and 30-day managed backups are documented.
+- Existing React/Vite, Express, and MongoDB/Mongoose architecture remains intact.
+- Route injection and order-service failure isolation are unchanged.
+- Native Node 22 `fetch` is used; no HTTP client was added.
+- Operators provide Telegram credentials and perform the live smoke test.
 
 ## Decisions
 
-- Configurable SMTP through Nodemailer sends admin order notifications.
-- Food items use multiple validated image URLs; uploads are excluded.
-- Insert-only idempotent seeding preserves admin edits.
-- Server-authoritative integer-pence calculations, atomic counters, TTL idempotency reservations, and HttpOnly-cookie admin auth protect critical flows.
+- Telegram Bot API `sendMessage` supersedes SMTP/Nodemailer.
+- Plain text includes order number, customer name, total, and phone.
+- Network, HTTP, malformed-response, and API failures reject with sanitized errors.
 
 ## Verification State
 
-- 29 server tests and 5 client tests pass; client lint/build pass.
-- Production dependency audit has zero vulnerabilities.
-- Fallow: PARTIAL, with no dead code/dependency/import/cycle/duplication blockers and documented complexity targets.
+- 37 server tests and 5 client tests pass; client lint/build pass.
+- Production dependency audit: zero vulnerabilities.
+- Fallow: PASSED with coverage; zero findings.
 - Workflow health: Passed.
 
 ## Active Artifacts
 
 - Summary: `_workflow/runs/dev/summary.md`
+- Verification: `_workflow/runs/dev/verification.md`
 - Handoff: `_workflow/runs/dev/handoff.md`
-- Release notes: `_workflow/runs/dev/release-notes.md`
 - Fallow: `.workflow/fallow-audit.md`

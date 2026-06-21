@@ -57,3 +57,27 @@ Append compact, timestamped workflow and memory updates. Do not rewrite prior en
 - Artifact: Created verification, review, Fallow audit, release notes and summary; updated handoff/progress/tasks
 - Checkpoint: Saved
 - Next: User review and commit
+
+## 2026-06-21T06:58:41+01:00
+
+- Stage: workflow complete -> specification approval
+- Memory: Resolved SMTP/Telegram conflict; superseded SMTP decision and added Telegram decision
+- Artifact: Updated `request.md`, `handoff.md`, `spec.md`, and Project Brain
+- Checkpoint: Saved
+- Next: Await explicit approval of the Telegram specification
+
+## 2026-06-21T07:03:00+01:00
+
+- Stage: specification approval -> planning complete
+- Memory: Recorded explicit approval and TASK-006 readiness
+- Artifact: Created `_workflow/runs/dev/tasks.md`; updated handoff
+- Checkpoint: Saved
+- Next: TASK-006 Iteration 1 Build
+
+## 2026-06-21T07:12:04+01:00
+
+- Stage: TASK-006 Ready -> workflow complete
+- Memory: Recorded Telegram implementation, verification, review, and passed Fallow state
+- Artifact: Updated task/progress/handoff/review/verification/release/summary/Fallow artifacts
+- Checkpoint: Saved
+- Next: Configure credentials, smoke-test Telegram, and review/commit

@@ -60,3 +60,16 @@
 - Applied skill: design-taste-frontend.
 - Acceptance: [x] All TASK-005 and saved-spec criteria completed for repository-verifiable scope.
 - Workflow health: Passed with justified PARTIAL Fallow verdict and documented external pre-launch checks.
+
+## 2026-06-21 — TASK-006 Done / Telegram-only notifications
+
+- Lifecycle: Planned -> Ready -> In Progress -> Verified -> Reviewed -> Done.
+- Files changed: Telegram notifier/config/tests, `.env.example`, package/lock manifests, current notification docs, and workflow evidence.
+- Iteration 1 Build: Red observed 4 focused failures against SMTP/missing Telegram config; Green implemented native-fetch `sendMessage` and required `config.telegram`; Refactor extracted endpoint/config values; 2 suites/4 tests passed after refactor.
+- Iteration 2 Refine: Red observed 4 failure-contract failures; Green added sanitized network handling plus HTTP, malformed-response, and Telegram API validation; Refactor/review retained separated error boundaries; 2 suites/8 tests passed.
+- Iteration 3 Polish: Red operations contract failed on missing Telegram env and stale SMTP; Green removed Nodemailer/SMTP and updated env/docs/lockfile; full test initially found a config-fixture gap, which was fixed and rerun; Refactor separated transport/response validation and full tests passed again.
+- TDD evidence: First-test failures and post-implementation/post-refactor passing commands recorded for every iteration.
+- Verification: 37 server tests, 5 client tests, client lint/build, production audit, reference/diff checks, and coverage-aware Fallow passed.
+- Acceptance: [x] All TASK-006 and saved-spec criteria met.
+- Fallow: PASSED; no dead code, dependency/import/cycle, duplication, or covered-complexity findings.
+- Next: Configure Telegram credentials and perform a non-production delivery smoke test.

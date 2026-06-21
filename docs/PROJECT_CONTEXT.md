@@ -13,7 +13,7 @@
 - Database: MongoDB/Mongoose 9.
 - Testing: Jest/Supertest server tests; Vitest/React Testing Library client tests.
 - Authentication: Single configured admin, bcrypt password hash, JWT HttpOnly cookie.
-- Notification: Provider-neutral SMTP through Nodemailer.
+- Notification: Telegram Bot API through native Node.js `fetch`.
 
 ## Commands
 

@@ -9,6 +9,8 @@ const validEnv = {
   ADMIN_PASSWORD_HASH: "$2b$12$example",
   JWT_SECRET: "a-secret-long-enough-for-tests",
   JWT_EXPIRES_IN: "7d",
+  TELEGRAM_BOT_TOKEN: "bot-token",
+  TELEGRAM_CHAT_ID: "-100123",
 };
 
 describe("parseConfig", () => {

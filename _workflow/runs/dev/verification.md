@@ -1,33 +1,15 @@
-# Verification Record
+# Telegram Notification Verification
 
-## Automated checks
+- `npm test -- --runTestsByPath server/tests/notification.test.js server/tests/env.test.js server/tests/operationsDocs.test.js`: 3 suites, 9 tests passed.
+- `npm test`: 13 suites, 37 tests passed after failure recovery and final refactor.
+- `npm test -- --coverage --coverageReporters=json`: 13 suites, 37 tests passed; supplied coverage to Fallow.
+- `npm test --prefix client`: 3 files, 5 tests passed.
+- `npm run lint --prefix client`: passed.
+- `npm run build --prefix client`: passed.
+- `npm audit --omit=dev --json`: 0 vulnerabilities.
+- Active-source SMTP/Nodemailer search: only negative assertions in `operationsDocs.test.js`; no implementation, manifest, environment, or current-doc references.
+- `git diff -- server/routes/orders.js server/services/orderService.js`: empty.
+- `git diff --check`: passed.
+- Fallow coverage-aware changed-code audit: passed, 0 dead code, 0 complexity findings, 0 duplicate groups.
 
-- `npm test`: Passed — 11 suites, 29 tests.
-- `npm test --prefix client`: Passed — 3 files, 5 tests.
-- `npm run lint --prefix client`: Passed with no findings.
-- `npm run build --prefix client`: Passed — 242.43 kB JS / 20.27 kB CSS before gzip.
-- `git diff --check`: Passed; only Windows line-ending notices were emitted by later diff reads.
-- `npm audit --omit=dev --json`: Passed — zero production vulnerabilities.
-- Full `npm audit --json`: 17 moderate findings, all within the Jest development toolchain through `js-yaml`; npm proposes a breaking Jest downgrade. No unreviewed force-fix was applied.
-- Secret-pattern scan: No credential-like values found; `.env.example` contains an explicit placeholder only.
-
-## Functional coverage
-
-- Runtime validation and Europe/London Sunday precedence.
-- Food/addon, zone, settings, counter, idempotency and order schemas.
-- Public bootstrap availability and insert-only seed behavior.
-- Server-authoritative price/addon/zone/minimum validation, snapshots, counter format, and duplicate reservation ordering.
-- Non-blocking SMTP boundary and public rate limiting.
-- Admin credential validation, transition graph, payment restrictions, management contracts.
-- Customer closure/menu/cart and admin login/navigation UI states.
-
-## Manual and UI review
-
-- Applied skill: design-taste-frontend.
-- Code-surface review confirmed mobile collapse below 960/640 px, no horizontal flex math, semantic labels/fieldsets, explicit loading/empty/error/success states, visible focus styles, reduced-motion override, a single warm accent, asymmetric public hero, and high-density admin lists without card overuse.
-- Browser automation was attempted through the required in-app browser workflow but the `iab` browser was unavailable. Per repository policy, no screenshot was required or fabricated.
-- Live database concurrency, real SMTP delivery, production cookie/CORS, Lighthouse score, API latency, and managed backup restoration require deployment/test infrastructure and remain operator pre-launch checks documented in `docs/VERIFY.md` and `docs/OPERATIONS.md`.
-
-## Result
-
-Passed for repository-verifiable scope. External-infrastructure checks are explicitly documented pre-launch obligations.
+Failure recovery: the first full server run exposed an existing config test fixture missing newly required Telegram values. The fixture was updated in scope and the exact full command then passed.

@@ -4,7 +4,7 @@ The React client serves two surfaces from one Vite application: the public order
 
 ## Critical flows
 
-Public bootstrap reads sorted menu items, active zones, settings, environment delivery fee, and Europe/London closure state. Checkout submits a generated idempotency key. The server re-reads every selected record, validates addon limits and availability, calculates integer-pence snapshots, reserves the key, atomically increments the order counter, persists the order, and starts a non-blocking SMTP notification.
+Public bootstrap reads sorted menu items, active zones, settings, environment delivery fee, and Europe/London closure state. Checkout submits a generated idempotency key. The server re-reads every selected record, validates addon limits and availability, calculates integer-pence snapshots, reserves the key, atomically increments the order counter, persists the order, and starts a non-blocking Telegram notification.
 
 Admin login compares the configured bcrypt hash and sends a JWT only in an HttpOnly cookie. Protected routes enforce the status-transition graph and payment eligibility. Menu, zones, and settings use strict Zod contracts; delivery fee has no admin write route.
 
@@ -20,4 +20,4 @@ Admin login compares the configured bcrypt hash and sends a JWT only in an HttpO
 
 ## Reliability and security
 
-Helmet, explicit credentialed CORS, rate limiting, Zod validation, secure cookies, centralized errors, TTL idempotency records, unique indexes, and atomic counters are applied. SMTP failures are logged without rolling back orders. Managed daily backups retained for 30 days are an operational prerequisite documented in `docs/OPERATIONS.md`.
+Helmet, explicit credentialed CORS, rate limiting, Zod validation, secure cookies, centralized errors, TTL idempotency records, unique indexes, and atomic counters are applied. Telegram failures are logged without rolling back orders. Managed daily backups retained for 30 days are an operational prerequisite documented in `docs/OPERATIONS.md`.
