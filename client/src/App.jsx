@@ -1,20 +1,46 @@
 import { useEffect } from "react";
 
+const images = {
+  hero: "https://res.cloudinary.com/dlsiabgiw/image/upload/v1782005862/amas-kitchen/pexels-ekrulila-20488746_kz18zy.jpg",
+  story:
+    "https://res.cloudinary.com/dlsiabgiw/image/upload/v1782005864/amas-kitchen/pexels-thomas-wilson-1334312084-30746554_y0jcan.jpg",
+};
+
 const dishes = [
-  [
-    "🍛",
-    "Jollof Rice",
-    "Smoky rice, grilled chicken, fried plantain.",
-    "£12.99",
-  ],
-  [
-    "🍲",
-    "Egusi Soup",
-    "Rich melon seed soup served with pounded yam.",
-    "£13.99",
-  ],
-  ["🍝", "Chicken Alfredo", "Creamy pasta with grilled chicken.", "£11.99"],
-  ["🥩", "Pepper Steak", "Juicy steak with fries and fresh salad.", "£14.99"],
+  {
+    name: "Jollof Rice",
+    desc: "Smoky rice served with grilled chicken and plantain.",
+    price: "£12.99",
+    image:
+      "https://res.cloudinary.com/dlsiabgiw/image/upload/v1782005872/amas-kitchen/pexels-jagaba-36707706_ibjjnv.jpg",
+  },
+  {
+    name: "Grilled Special",
+    desc: "Charcoal-grilled meat with house seasoning.",
+    price: "£14.99",
+    image:
+      "https://res.cloudinary.com/dlsiabgiw/image/upload/v1782005876/amas-kitchen/pexels-kubra-dogu-80605500-8837229_zvzsmp.jpg",
+  },
+  {
+    name: "Chef Plate",
+    desc: "A rich plate made fresh with bold flavours.",
+    price: "£13.99",
+    image:
+      "https://res.cloudinary.com/dlsiabgiw/image/upload/v1782005876/amas-kitchen/pexels-zain-alabdeen-hammoudi-2151566197-37307214_cyghwx.jpg",
+  },
+  {
+    name: "House Pasta",
+    desc: "Creamy pasta served with herbs and grilled chicken.",
+    price: "£11.99",
+    image:
+      "https://res.cloudinary.com/dlsiabgiw/image/upload/v1782005871/amas-kitchen/pexels-hamzaoui-fatma-2153886935-33434010_cwgzlj.jpg",
+  },
+];
+
+const gallery = [
+  "https://res.cloudinary.com/dlsiabgiw/image/upload/v1782005869/amas-kitchen/pexels-tonyleong81-2092916_s1s2ru.jpg",
+  "https://res.cloudinary.com/dlsiabgiw/image/upload/v1782005869/amas-kitchen/pexels-saizstudio-17952746_tcmohu.jpg",
+  "https://res.cloudinary.com/dlsiabgiw/image/upload/v1782005864/amas-kitchen/pexels-thomas-wilson-1334312084-30746554_y0jcan.jpg",
 ];
 
 export default function App() {
@@ -36,30 +62,28 @@ export default function App() {
         </h1>
 
         <div className="hidden gap-8 text-sm font-medium md:flex">
-          <a href="#" className="text-amber-400">
+          <a className="text-amber-400" href="#">
             Home
           </a>
           <a href="#">Menu</a>
-          <a href="#">About</a>
+          <a href="#">Gallery</a>
           <a href="#">Contact</a>
         </div>
 
-        <button className="rounded-lg border border-amber-400 px-5 py-2 text-sm font-semibold text-amber-400 hover:bg-amber-400 hover:text-slate-950">
-          Reserve a Table
+        <button className="rounded-lg border border-amber-400 px-5 py-2 text-sm font-bold text-amber-400 hover:bg-amber-400 hover:text-slate-950">
+          Reserve Table
         </button>
       </nav>
 
-      <section className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-20 md:grid-cols-2">
+      <section className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 md:grid-cols-2">
         <div>
           <p className="mb-4 text-sm font-bold uppercase tracking-widest text-amber-400">
             Welcome to
           </p>
-
           <h2 className="text-5xl font-extrabold leading-tight md:text-7xl">
             Ama&apos;s Kitchen
           </h2>
-
-          <p className="mt-6 max-w-xl text-lg text-slate-300">
+          <p className="mt-6 text-lg text-slate-300">
             Curating the best dishes served with love, flavour, and passion.
             Good food, great vibes, unforgettable memories.
           </p>
@@ -74,26 +98,11 @@ export default function App() {
           </div>
         </div>
 
-        <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-2xl">
-          <div className="flex aspect-square items-center justify-center rounded-[1.5rem] bg-gradient-to-br from-amber-500 to-orange-800 text-9xl">
-            🍗
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-white/10 bg-slate-900">
-        <div className="mx-auto grid max-w-6xl gap-8 px-6 py-8 md:grid-cols-3">
-          {["Fresh Ingredients", "Expertly Cooked", "Made With Love"].map(
-            (item) => (
-              <div key={item} className="rounded-2xl bg-white/5 p-6">
-                <h3 className="font-bold text-amber-400">{item}</h3>
-                <p className="mt-2 text-sm text-slate-300">
-                  Quality meals prepared daily with care and flavour.
-                </p>
-              </div>
-            ),
-          )}
-        </div>
+        <img
+          src={images.hero}
+          alt="Ama's Kitchen hero dish"
+          className="h-[420px] w-full rounded-[2rem] object-cover shadow-2xl"
+        />
       </section>
 
       <section className="bg-orange-50 px-6 py-16 text-slate-950">
@@ -101,36 +110,63 @@ export default function App() {
           <p className="text-sm font-bold uppercase tracking-widest text-amber-700">
             Our Menu
           </p>
-
-          <div className="mt-2 flex items-end justify-between gap-6">
-            <div>
-              <h2 className="text-4xl font-extrabold">Popular Dishes</h2>
-              <p className="mt-2 text-slate-600">
-                A selection of our customers&apos; favourites.
-              </p>
-            </div>
-
-            <button className="hidden rounded-lg border border-amber-700 px-5 py-3 font-bold text-amber-700 md:block">
-              View Full Menu
-            </button>
-          </div>
+          <h2 className="mt-2 text-4xl font-extrabold">Popular Dishes</h2>
 
           <div className="mt-8 grid gap-6 md:grid-cols-4">
-            {dishes.map(([emoji, name, desc, price]) => (
+            {dishes.map((dish) => (
               <article
-                key={name}
+                key={dish.name}
                 className="overflow-hidden rounded-2xl bg-white shadow"
               >
-                <div className="flex h-40 items-center justify-center bg-amber-100 text-7xl">
-                  {emoji}
-                </div>
-
+                <img
+                  src={dish.image}
+                  alt={dish.name}
+                  className="h-44 w-full object-cover"
+                />
                 <div className="p-5">
-                  <h3 className="font-bold">{name}</h3>
-                  <p className="mt-2 text-sm text-slate-600">{desc}</p>
-                  <p className="mt-4 font-extrabold text-amber-700">{price}</p>
+                  <h3 className="font-bold">{dish.name}</h3>
+                  <p className="mt-2 text-sm text-slate-600">{dish.desc}</p>
+                  <p className="mt-4 font-extrabold text-amber-700">
+                    {dish.price}
+                  </p>
                 </div>
               </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-6xl gap-10 px-6 py-20 md:grid-cols-2">
+        <div>
+          <p className="text-sm font-bold uppercase tracking-widest text-amber-400">
+            About Us
+          </p>
+          <h2 className="mt-2 text-4xl font-extrabold">Our Story</h2>
+          <p className="mt-5 text-slate-300">
+            Ama&apos;s Kitchen was built around fresh ingredients, bold flavour,
+            and meals that feel like home.
+          </p>
+        </div>
+
+        <img
+          src={images.story}
+          alt="Restaurant kitchen"
+          className="h-80 w-full rounded-3xl object-cover"
+        />
+      </section>
+
+      <section className="bg-slate-900 px-6 py-16">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-4xl font-extrabold">Gallery</h2>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {gallery.map((image) => (
+              <img
+                key={image}
+                src={image}
+                alt="Ama's Kitchen gallery"
+                className="h-72 w-full rounded-2xl object-cover"
+              />
             ))}
           </div>
         </div>
