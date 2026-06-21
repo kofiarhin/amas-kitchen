@@ -46,8 +46,9 @@ const gallery = [
 export default function App() {
   useEffect(() => {
     const getHealth = async () => {
-      const res = await fetch("http://localhost:5000/health");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/health`);
       const data = await res.json();
+
       console.log({ data });
     };
 
