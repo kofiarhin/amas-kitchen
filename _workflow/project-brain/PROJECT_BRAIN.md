@@ -1,58 +1,38 @@
 # Project Brain
 
-> Generated human-readable projection of `_workflow/project-brain/project.json`.
-> JSON is the source of truth. Do not edit this projection as the authoritative memory record.
+> Generated projection of `_workflow/project-brain/project.json`; JSON is authoritative.
 
-- Version: `1.0.0`
-- Updated at: not initialized
+- Updated: 2026-06-21T06:05:00+01:00
+- Workflow: complete (`complete`)
+- Next stage: user review
 
-## Workflow
+## Active Goal
 
-- Current stage: not initialized
-- Completed stages: none
-- Next stage: not initialized
-- Status: not initialized
+The complete Ama's Kitchen delivery-ordering MVP defined in `Amas-Kitchen-PRD.md` is implemented on run `dev`.
 
-## Goals
+## Requirements And Constraints
 
-None recorded.
+- PRD v3.0 customer, admin, and system behavior is implemented for repository-verifiable scope.
+- Architecture remains React/Vite, Express, and MongoDB/Mongoose.
+- Deployment/infrastructure remain excluded; deployment readiness and 30-day managed backups are documented.
 
-## Requirements
+## Decisions
 
-None recorded.
+- Configurable SMTP through Nodemailer sends admin order notifications.
+- Food items use multiple validated image URLs; uploads are excluded.
+- Insert-only idempotent seeding preserves admin edits.
+- Server-authoritative integer-pence calculations, atomic counters, TTL idempotency reservations, and HttpOnly-cookie admin auth protect critical flows.
 
-## Constraints
+## Verification State
 
-None recorded.
+- 29 server tests and 5 client tests pass; client lint/build pass.
+- Production dependency audit has zero vulnerabilities.
+- Fallow: PARTIAL, with no dead code/dependency/import/cycle/duplication blockers and documented complexity targets.
+- Workflow health: Passed.
 
-## Architecture Decisions
+## Active Artifacts
 
-None recorded.
-
-## Technical Decisions
-
-None recorded.
-
-## Domain Knowledge
-
-None recorded.
-
-## Open Questions
-
-None recorded.
-
-## Risks
-
-None recorded.
-
-## Artifacts
-
-None recorded.
-
-## Custom Categories
-
-None registered.
-
-## Recent Changes
-
-None recorded.
+- Summary: `_workflow/runs/dev/summary.md`
+- Handoff: `_workflow/runs/dev/handoff.md`
+- Release notes: `_workflow/runs/dev/release-notes.md`
+- Fallow: `.workflow/fallow-audit.md`

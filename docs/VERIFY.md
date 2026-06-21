@@ -1,39 +1,21 @@
-# Legacy Verification Notes
+# Verification
 
-The main workflow now records per-task verification in `_progress/progress.md` and final workflow verification in `_summary/`.
+Run before release:
 
-Use this file only for compatibility or durable verification guidance. Do not treat it as the authoritative progress log.
-
-## Verification Rules
-
-- Record commands exactly as run.
-- Do not mark verification as passed unless it actually passed.
-- If a command cannot run, record why.
-- Include manual checks when automated tests are unavailable.
-- Record bugs found during verification and fixes applied.
-- Link verification to the task ID in `_task/`.
-
-## Progress Entry Location
-
-After each task, append verification results to:
-
-```txt
-_progress/progress.md
+```bash
+npm test
+npm test --prefix client
+npm run lint --prefix client
+npm run build --prefix client
 ```
 
-Required fields:
+Manually verify at mobile and desktop widths:
 
-- Task ID.
-- Status.
-- Files changed.
-- Verification result.
-- Blockers.
-- Next step.
+- Menu loading, empty, unavailable, sold-out, addon, minimum, and closure states.
+- Guest checkout and confirmation using an isolated database and test SMTP relay.
+- Duplicate submission, server-side repricing, invalid zone, and Sunday rejection.
+- Admin login/logout/session expiry, order search/filter, every legal transition, terminal-state blocks, and payment eligibility.
+- Menu URL/addon editing, case-insensitive zones, settings closure, and public refresh.
+- Keyboard focus, labels, contrast, reduced motion, responsive overflow, and representative Lighthouse results.
 
-## Summary Location
-
-After the workflow completes, include verification results in:
-
-```txt
-_summary/<date-or-slug>.md
-```
+Deployment verification additionally includes `/health`, production credentialed CORS/cookies, SMTP failure logging, provider backup policy, and a documented restore drill.

@@ -1,5 +1,22 @@
 {
   "version": "1.0.0",
-  "updatedAt": "",
-  "events": []
+  "updatedAt": "2026-06-21T05:17:25+01:00",
+  "events": [
+    {
+      "id": "history-amas-001",
+      "timestamp": "2026-06-21T05:17:25+01:00",
+      "runId": "dev",
+      "stage": "specification-approval",
+      "summary": "Initialized durable and run memory from PRD intake; saved specification awaiting approval.",
+      "artifacts": ["_workflow/runs/dev/request.md", "_workflow/runs/dev/handoff.md", "_workflow/runs/dev/spec.md"]
+    },
+    {
+      "id": "history-amas-002",
+      "timestamp": "2026-06-21T06:05:00+01:00",
+      "runId": "dev",
+      "stage": "complete",
+      "summary": "Completed five-task PRD implementation, verification, review, Fallow, release notes, summary, and health check.",
+      "artifacts": ["_workflow/runs/dev/summary.md", "_workflow/runs/dev/release-notes.md", ".workflow/fallow-audit.md"]
+    }
+  ]
 }

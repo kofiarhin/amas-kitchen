@@ -1,0 +1,12 @@
+{
+  "entry": [
+    "server/server.js",
+    "server/scripts/seed.js",
+    "server/tests/**/*.test.js",
+    "client/src/main.jsx",
+    "client/src/**/*.test.{js,jsx}",
+    "client/src/test/setup.js",
+    "client/vite.config.js",
+    "client/eslint.config.js"
+  ]
+}

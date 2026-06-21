@@ -1,72 +1,44 @@
 # Project Context
 
-This file captures durable repository facts discovered during workflow runs. Keep it concise and update it when repo conventions become clear.
-
 ## Project Summary
 
-- Project name: `<PROJECT_NAME>`
-- Purpose: `<ONE_SENTENCE_PURPOSE>`
-- Current maturity: `<prototype / MVP / production / unknown>`
+- Project: Ama's Kitchen
+- Purpose: Delivery-only guest ordering and single-admin fulfilment platform.
+- Maturity: MVP implementation.
 
 ## Stack
 
-- Frontend: `<Framework or none>`
-- Backend: `<Framework or none>`
-- Database: `<Database or none>`
-- Runtime: `<Node/Python/Ruby/etc.>`
-- Languages: `<Languages>`
-- Styling: `<Tailwind/CSS/SCSS/etc.>`
-- Deployment: `<Platform(s)>`
+- Frontend: React 19, Vite 8, Tailwind CSS 4 plus application CSS, Phosphor icons.
+- Backend: Node.js, Express 5, CommonJS.
+- Database: MongoDB/Mongoose 9.
+- Testing: Jest/Supertest server tests; Vitest/React Testing Library client tests.
+- Authentication: Single configured admin, bcrypt password hash, JWT HttpOnly cookie.
+- Notification: Provider-neutral SMTP through Nodemailer.
 
-## Package Manager
-
-- Detected package manager: `<npm / pnpm / yarn / pip / poetry / etc.>`
-- Lockfiles: `<package-lock.json / pnpm-lock.yaml / yarn.lock / etc.>`
-- Install command: `<command>`
-
-## Common Commands
+## Commands
 
 ```bash
-# Test
-<command>
-
-# Lint
-<command>
-
-# Build
-<command>
-
-# Typecheck
-<command>
+npm ci
+npm ci --prefix client
+npm run seed
+npm run dev
+npm test
+npm test --prefix client
+npm run lint --prefix client
+npm run build --prefix client
 ```
 
-## Testing Tools
+## Architecture rules
 
-- Unit tests: `<Tool>`
-- Integration tests: `<Tool>`
-- End-to-end tests: `<Tool>`
-- Manual verification notes: `<Notes>`
+- API routes remain thin; validation and business rules live at boundaries/services.
+- Prices are integer pence internally and formatted as GBP in the client.
+- Public order totals, availability, zones, and addons are revalidated server-side.
+- Server state is fetched directly; only the versioned cart persists in local storage. JWTs never do.
+- Historical order lines contain immutable item/addon name and price snapshots.
+- Project Brain JSON under `_workflow/project-brain/` is authoritative workflow memory.
 
-## Repo Conventions
+## Constraints
 
-- Folder conventions: `<Notes>`
-- Naming conventions: `<Notes>`
-- API conventions: `<Notes>`
-- State management conventions: `<Notes>`
-- Error handling conventions: `<Notes>`
-
-## Architecture Rules
-
-- Project Brain JSON under `_workflow/project-brain/` is the source of truth for durable memory and current workflow state; run-scoped `progress.md` remains authoritative for completed task evidence.
-- Project Brain is CLI-native backend workflow memory. Do not add a separate memory UI unless a future request explicitly requires one.
-- `<Rule discovered from repo or agreed by team>`
-- `<Rule discovered from repo or agreed by team>`
-
-## Known Constraints
-
-- `<Constraint>`
-- `<Constraint>`
-
-## Open Questions
-
-- `<Question>`
+- One restaurant, one admin, delivery and Cash on Delivery only.
+- Europe/London time; Sunday closure is absolute.
+- Deployment and backup infrastructure are operator-managed and not provisioned by this repository.

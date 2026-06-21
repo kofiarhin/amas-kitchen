@@ -1,13 +1,8 @@
 const mongoose = require("mongoose");
+const { getConfig } = require("./env");
 
 const connectDB = async () => {
-  const mongoUri = process.env.MONGO_URI;
-
-  if (!mongoUri) {
-    throw new Error("MONGO_URI is required");
-  }
-
-  const connection = await mongoose.connect(mongoUri);
+  const connection = await mongoose.connect(getConfig().mongoUri);
   console.log("connected to database:", connection.connection.host);
 
   return connection;
