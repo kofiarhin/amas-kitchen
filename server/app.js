@@ -3,16 +3,25 @@ const cors = require("cors");
 
 const app = express();
 
-// setup middleware
+const allowedOrigins = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.split(",").map((origin) => origin.trim()).filter(Boolean)
+  : [];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
   }),
 );
 
 app.use(express.json());
 
-app.get("/", async (req, res, next) => {
+app.get("/", (req, res) => {
   return res.json({ message: "Welcome to Amas Kitchen" });
 });
 
@@ -20,6 +29,17 @@ app.get("/health", (req, res) => {
   return res.status(200).json({
     status: "ok",
     message: "Server is healthy",
+  });
+});
+
+app.use((err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  return res.status(500).json({
+    success: false,
+    message: process.env.NODE_ENV === "production" ? "Server error" : err.message,
   });
 });
 
