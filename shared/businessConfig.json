@@ -14,6 +14,17 @@
   "businessHours": "Monday–Saturday",
   "deliveryMode": "Delivery only",
   "supportPhone": "030 000 0000",
-  "supportEmail": "hello@amaskitchen.com",
-  "deliveryAreas": ["Lapaz", "Achimota", "Tesano", "Circle", "Kaneshie", "Dansoman", "Osu", "East Legon", "Madina", "Spintex"]
+  "supportEmail": "info@amaskitchen.com",
+  "deliveryAreas": [
+    "Lapaz",
+    "Achimota",
+    "Tesano",
+    "Circle",
+    "Kaneshie",
+    "Dansoman",
+    "Osu",
+    "East Legon",
+    "Madina",
+    "Spintex"
+  ]
 }
