@@ -1,10 +1,59 @@
-function formatOrderMessage(order) {
+function formatMoney(pence = 0) {
+  return `£${(pence / 100).toFixed(2)}`;
+}
+
+function clean(value) {
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function formatOrderItems(items = []) {
+  if (!items.length) return ["Items: Not provided"];
+
   return [
+    "Items:",
+    ...items.flatMap((item) => {
+      const quantity = item.quantity || 1;
+      const lines = [`- ${quantity}x ${item.name} (${formatMoney(item.lineTotal)})`];
+
+      for (const addon of item.selectedAddons || []) {
+        const group = clean(addon.addonGroupName);
+        const prefix = group ? `${group}: ` : "";
+        lines.push(`  • ${prefix}${addon.name} (+${formatMoney(addon.price)})`);
+      }
+
+      return lines;
+    }),
+  ];
+}
+
+function formatDeliveryAddress(deliveryAddress = {}) {
+  const addressParts = [
+    clean(deliveryAddress.line1),
+    clean(deliveryAddress.line2),
+    clean(deliveryAddress.city),
+  ].filter(Boolean);
+
+  const lines = [];
+  if (addressParts.length) lines.push(`Delivery: ${addressParts.join(", ")}`);
+  if (clean(deliveryAddress.instructions)) lines.push(`Instructions: ${clean(deliveryAddress.instructions)}`);
+  return lines;
+}
+
+function formatOrderMessage(order) {
+  const lines = [
     `Order: ${order.orderNumber}`,
     `Customer: ${order.customerName}`,
-    `Total: £${(order.total / 100).toFixed(2)}`,
+    `Total: ${formatMoney(order.total)}`,
     `Phone: ${order.phone}`,
-  ].join("\n");
+    "",
+    ...formatOrderItems(order.items),
+    "",
+    ...formatDeliveryAddress(order.deliveryAddress),
+  ];
+
+  if (clean(order.notes)) lines.push(`Notes: ${clean(order.notes)}`);
+
+  return lines.filter((line, index, all) => line !== "" || (all[index - 1] && all[index + 1])).join("\n");
 }
 
 async function sendTelegramRequest(endpoint, body) {
@@ -44,4 +93,4 @@ function createNotifier(config) {
   };
 }
 
-module.exports = { createNotifier };
+module.exports = { createNotifier, formatOrderMessage };
