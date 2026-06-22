@@ -15,6 +15,13 @@ const images = {
   gallery5: "https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=900",
 };
 
+const heroSlides = [
+  { src: images.hero, alt: "A premium Ghanaian meal from Ama's Kitchen", label: "Small-batch cooking, generous flavour." },
+  { src: images.gallery2, alt: "A warm plate of Ghanaian rice and sides", label: "Fresh plates prepared with care." },
+  { src: images.gallery1, alt: "A colourful Ghanaian dish served beautifully", label: "Comfort food, finished beautifully." },
+  { src: images.story, alt: "Ama's Kitchen food preparation", label: "Authentic recipes for everyday moments." },
+];
+
 const navLinks = [{ label: "Home", href: "/" }, { label: "Menu", href: "/menu" }, { label: "Services", href: "/services" }, { label: "About", href: "/about" }, { label: "Contact", href: "/contact" }];
 const services = ["Event Catering", "Corporate Lunches", "Private Dining", "Meal Plans", "Bulk Orders"];
 const testimonials = [
@@ -39,9 +46,27 @@ function Navbar({ cartCount, onCart }) {
 
 function Footer({ business, supportPhone }) { return <footer className="footer"><div><Link href="/" className="brand">Ama’s <span>Kitchen</span></Link><p>Authentic Ghanaian food, made with the warmth of home and delivered across {business.city}.</p></div><div><h3>Quick links</h3>{navLinks.map((link) => <Link key={link.href} href={link.href}>{link.label}</Link>)}</div><div><h3>Contact</h3><a href={`tel:${supportPhone || business.supportPhone}`}>{supportPhone || business.supportPhone}</a><a href={`mailto:${business.supportEmail}`}>{business.supportEmail}</a><span>{business.area}, {business.city}</span></div><div><h3>Opening hours</h3><p>{business.businessHours}</p><span>Instagram</span><span>WhatsApp</span></div></footer>; }
 
+function HeroCarousel() {
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const timer = setInterval(() => setActive((index) => (index + 1) % heroSlides.length), 4200);
+    return () => clearInterval(timer);
+  }, []);
+
+  return <div className="hero-image" aria-label="Featured Ama's Kitchen food carousel">
+    <div style={{ position: "relative", height: "min(72vh,720px)", minHeight: 420, overflow: "hidden", borderRadius: 42, boxShadow: "var(--shadow)" }}>
+      {heroSlides.map((slide, index) => <img key={slide.src} src={slide.src} alt={slide.alt} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: active === index ? 1 : 0, transition: "opacity 900ms ease", filter: "saturate(.88) contrast(1.03)" }} />)}
+    </div>
+    <span>{heroSlides[active].label}</span>
+    <div aria-hidden="true" style={{ position: "absolute", left: 28, bottom: 28, display: "flex", gap: 8 }}>
+      {heroSlides.map((slide, index) => <button key={slide.src} type="button" onClick={() => setActive(index)} aria-label={`Show slide ${index + 1}`} style={{ width: active === index ? 26 : 8, height: 8, border: 0, borderRadius: 999, padding: 0, background: active === index ? "var(--accent)" : "rgba(246,243,239,.42)" }} />)}
+    </div>
+  </div>;
+}
+
 function HomePage({ menu }) {
   const featured = (menu?.length ? menu : fallbackMenu).slice(0, 3);
-  return <><section className="home-hero"><div className="hero-copy"><p className="eyebrow">Premium Ghanaian kitchen</p><h1>Authentic Ghanaian food, made with the warmth of home.</h1><p>Freshly prepared and delivered across Accra.</p><div className="hero-actions"><Link href="/menu" className="primary-button">Order Now <ArrowRight size={18} /></Link><Link href="/menu" className="secondary-button">Explore Menu</Link></div></div><div className="hero-image"><img src={images.hero} alt="A premium Ghanaian meal from Ama's Kitchen" /><span>Small-batch cooking, generous flavour.</span></div></section><section className="section"><div className="section-heading"><p className="eyebrow">Signature dishes</p><h2>Three plates people come back for.</h2><Link href="/menu">View Full Menu <ArrowRight size={16} /></Link></div><div className="signature-grid">{featured.map((item) => <article className="premium-card" key={item._id}><img src={item.images?.[0] || images.gallery1} alt={item.name} /><div><h3>{item.name}</h3><p>{item.description}</p><b>{formatMoney(item.basePrice)}</b></div></article>)}</div></section><section className="split-section"><img src={images.story} alt="Ama's Kitchen food preparation" /><div><p className="eyebrow">Our story</p><h2>Food that feels cared for.</h2><p>Ama's Kitchen brings the comfort of Ghanaian home cooking into a polished daily dining experience. We cook fresh, layer flavour patiently and keep every order personal.</p><Link href="/about" className="text-link">Meet Ama's Kitchen</Link></div></section><GallerySection /><section className="section"><div className="section-heading"><p className="eyebrow">Services</p><h2>For lunches, gatherings and special tables.</h2><Link href="/services">Explore Services <ArrowRight size={16} /></Link></div><div className="service-strip">{services.map((service) => <article key={service}><h3>{service}</h3><p>Custom Ghanaian food support for moments that need more than the standard menu.</p></article>)}</div></section><section className="section testimonials"><p className="eyebrow">Kind words</p><div>{testimonials.map((item) => <article key={item.name}><Stars /><p>“{item.quote}”</p><b>{item.name}</b></article>)}</div></section><section className="final-cta"><p className="eyebrow">Ready to order?</p><h2>Choose your meal while the kitchen is open.</h2><Link href="/menu" className="primary-button">View Menu <ArrowRight size={18} /></Link></section></>;
+  return <><section className="home-hero"><div className="hero-copy"><p className="eyebrow">Premium Ghanaian kitchen</p><h1>Authentic Ghanaian food, made with the warmth of home.</h1><p>Freshly prepared and delivered across Accra.</p><div className="hero-actions"><Link href="/menu" className="primary-button">Order Now <ArrowRight size={18} /></Link><Link href="/menu" className="secondary-button">Explore Menu</Link></div></div><HeroCarousel /></section><section className="section"><div className="section-heading"><p className="eyebrow">Signature dishes</p><h2>Three plates people come back for.</h2><Link href="/menu">View Full Menu <ArrowRight size={16} /></Link></div><div className="signature-grid">{featured.map((item) => <article className="premium-card" key={item._id}><img src={item.images?.[0] || images.gallery1} alt={item.name} /><div><h3>{item.name}</h3><p>{item.description}</p><b>{formatMoney(item.basePrice)}</b></div></article>)}</div></section><section className="split-section"><img src={images.story} alt="Ama's Kitchen food preparation" /><div><p className="eyebrow">Our story</p><h2>Food that feels cared for.</h2><p>Ama's Kitchen brings the comfort of Ghanaian home cooking into a polished daily dining experience. We cook fresh, layer flavour patiently and keep every order personal.</p><Link href="/about" className="text-link">Meet Ama's Kitchen</Link></div></section><GallerySection /><section className="section"><div className="section-heading"><p className="eyebrow">Services</p><h2>For lunches, gatherings and special tables.</h2><Link href="/services">Explore Services <ArrowRight size={16} /></Link></div><div className="service-strip">{services.map((service) => <article key={service}><h3>{service}</h3><p>Custom Ghanaian food support for moments that need more than the standard menu.</p></article>)}</div></section><section className="section testimonials"><p className="eyebrow">Kind words</p><div>{testimonials.map((item) => <article key={item.name}><Stars /><p>“{item.quote}”</p><b>{item.name}</b></article>)}</div></section><section className="final-cta"><p className="eyebrow">Ready to order?</p><h2>Choose your meal while the kitchen is open.</h2><Link href="/menu" className="primary-button">View Menu <ArrowRight size={18} /></Link></section></>;
 }
 function GallerySection() { return <section className="gallery-section" aria-label="Food gallery">{[images.gallery1, images.gallery2, images.gallery3, images.gallery4, images.gallery5].map((src, index) => <img key={src} src={src} alt={`Ama's Kitchen gallery dish ${index + 1}`} />)}</section>; }
 
