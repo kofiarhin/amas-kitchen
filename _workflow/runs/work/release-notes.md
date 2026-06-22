@@ -1,6 +1,6 @@
 # Release Notes
 
-- Redesigned the public Ama's Kitchen website into a premium Ghanaian food brand funnel.
-- Moved ordering to /menu with sticky category pills, food cards, floating cart button, and cart drawer/bottom sheet.
-- Added separate /checkout, /order-confirmation, /services, /about, and /contact experiences.
-- Preserved existing backend order submission flow.
+- Added global Light/Dark theme support with system default behavior.
+- Added accessible reusable theme menu across public and admin pages.
+- Refactored public and admin colors to theme variables.
+- Added no-flash pre-mount theme application script.

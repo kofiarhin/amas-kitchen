@@ -1,7 +1,6 @@
-
 Activity
-- Stage: Intake -> Workflow complete
-- Memory: added run request/spec/task/progress/review/release/summary evidence
-- Artifact: updated _workflow/runs/work/*
+- Stage: Implementation → Verification
+- Memory: updated
+- Artifact: workflow run artifacts refreshed
 - Checkpoint: saved
 - Next: commit and PR

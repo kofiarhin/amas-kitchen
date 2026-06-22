@@ -4,6 +4,7 @@ import { cartReducer, cartSubtotal, formatMoney, initialCart, lineTotal } from "
 import { fetchPublicBootstrap, placeOrder } from "./lib/api";
 import businessConfig from "../../shared/businessConfig.json";
 import AdminApp from "./admin/AdminApp";
+import ThemeMenu from "./components/ThemeMenu";
 
 const images = {
   hero: "https://res.cloudinary.com/dlsiabgiw/image/upload/v1782005862/amas-kitchen/pexels-ekrulila-20488746_kz18zy.jpg",
@@ -41,7 +42,7 @@ function Stars() { return <span className="stars" aria-label="5 star rating">{[0
 
 function Navbar({ cartCount, onCart }) {
   const [open, setOpen] = useState(false);
-  return <header className="site-nav"><Link href="/" className="brand">Ama’s <span>Kitchen</span></Link><nav className="desktop-nav">{navLinks.map((link) => <Link key={link.href} href={link.href}>{link.label}</Link>)}</nav><div className="nav-actions"><button className="cart-chip" onClick={onCart} aria-label="Open cart"><ShoppingBag size={18} />{cartCount}</button><Link href="/menu" className="order-link">Order Now</Link><button className="mobile-menu-button" onClick={() => setOpen(true)} aria-label="Open menu"><List size={24} /></button></div>{open && <div className="mobile-nav-panel"><button aria-label="Close menu" onClick={() => setOpen(false)}><X size={22} /></button>{navLinks.map((link) => <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>{link.label}</Link>)}<Link href="/menu" className="order-link" onClick={() => setOpen(false)}>Order Now</Link></div>}</header>;
+  return <header className="site-nav"><Link href="/" className="brand">Ama’s <span>Kitchen</span></Link><nav className="desktop-nav">{navLinks.map((link) => <Link key={link.href} href={link.href}>{link.label}</Link>)}</nav><div className="nav-actions"><button className="cart-chip" onClick={onCart} aria-label="Open cart"><ShoppingBag size={18} />{cartCount}</button><Link href="/menu" className="order-link">Order Now</Link><ThemeMenu /><button className="mobile-menu-button" onClick={() => setOpen(true)} aria-label="Open menu"><List size={24} /></button></div>{open && <div className="mobile-nav-panel"><button aria-label="Close menu" onClick={() => setOpen(false)}><X size={22} /></button>{navLinks.map((link) => <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>{link.label}</Link>)}<Link href="/menu" className="order-link" onClick={() => setOpen(false)}>Order Now</Link></div>}</header>;
 }
 
 function Footer({ business, supportPhone }) { return <footer className="footer"><div><Link href="/" className="brand">Ama’s <span>Kitchen</span></Link><p>Authentic Ghanaian food, made with the warmth of home and delivered across {business.city}.</p></div><div><h3>Quick links</h3>{navLinks.map((link) => <Link key={link.href} href={link.href}>{link.label}</Link>)}</div><div><h3>Contact</h3><a href={`tel:${supportPhone || business.supportPhone}`}>{supportPhone || business.supportPhone}</a><a href={`mailto:${business.supportEmail}`}>{business.supportEmail}</a><span>{business.area}, {business.city}</span></div><div><h3>Opening hours</h3><p>{business.businessHours}</p><span>Instagram</span><span>WhatsApp</span></div></footer>; }
