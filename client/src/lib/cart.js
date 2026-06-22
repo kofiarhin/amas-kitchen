@@ -1,3 +1,5 @@
+import businessConfig from "../../../shared/businessConfig.json";
+
 export const initialCart = { version: 1, lines: [] };
 
 const createLineId = () => globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`;
@@ -12,4 +14,4 @@ export function cartReducer(state, action) {
 
 export const lineTotal = (line) => (line.item.basePrice + line.addons.reduce((sum, addon) => sum + addon.price, 0)) * line.quantity;
 export const cartSubtotal = (cart) => cart.lines.reduce((sum, line) => sum + lineTotal(line), 0);
-export const formatMoney = (pence) => new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" }).format(pence / 100);
+export const formatMoney = (minorUnits) => new Intl.NumberFormat(businessConfig.locale, { style: "currency", currency: businessConfig.currency }).format(minorUnits / 100);
