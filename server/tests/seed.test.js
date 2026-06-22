@@ -1,19 +1,18 @@
 const { seedRestaurantData } = require("../scripts/seedData");
 
-test("seed uses insert-only upserts so reruns preserve admin edits", async () => {
-  const updateOne = jest.fn().mockResolvedValue({ acknowledged: true });
+test("seed clears and recreates restaurant defaults", async () => {
+  const deleteMany = jest.fn().mockResolvedValue({ acknowledged: true });
+  const insertMany = jest.fn().mockResolvedValue([]);
+  const create = jest.fn().mockResolvedValue({});
   const models = {
-    FoodItem: { updateOne },
-    DeliveryZone: { updateOne },
-    Settings: { updateOne },
+    FoodItem: { deleteMany, insertMany },
+    DeliveryZone: { deleteMany, insertMany },
+    Settings: { deleteMany, create },
   };
 
   await seedRestaurantData(models);
 
-  expect(updateOne).toHaveBeenCalled();
-  for (const [, update, options] of updateOne.mock.calls) {
-    expect(update).toHaveProperty("$setOnInsert");
-    expect(update).not.toHaveProperty("$set");
-    expect(options).toEqual({ upsert: true });
-  }
+  expect(deleteMany).toHaveBeenCalledTimes(3);
+  expect(insertMany).toHaveBeenCalledTimes(2);
+  expect(create).toHaveBeenCalledWith(expect.objectContaining({ key: "restaurant" }));
 });

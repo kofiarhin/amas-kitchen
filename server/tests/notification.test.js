@@ -22,7 +22,7 @@ describe("Telegram order notifier", () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chat_id: "-100123",
-          text: "Order: AK-000042\nCustomer: Ama Mensah\nTotal: £45.99\nPhone: 020 7946 0182",
+          text: "Order: AK-000042\nCustomer: Ama Mensah\nTotal: £45.99\nPhone: 020 7946 0182\n\nItems: Not provided",
         }),
       },
     );

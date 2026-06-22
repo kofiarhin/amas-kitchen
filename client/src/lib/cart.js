@@ -8,6 +8,7 @@ export function cartReducer(state, action) {
   if (action.type === "hydrate") return action.cart?.version === 1 ? action.cart : initialCart;
   if (action.type === "add") return { ...state, lines: [...state.lines, { lineId: createLineId(), item: action.item, quantity: action.quantity, addons: action.addons }] };
   if (action.type === "remove") return { ...state, lines: state.lines.filter((line) => line.lineId !== action.lineId) };
+  if (action.type === "quantity") return { ...state, lines: state.lines.map((line) => line.lineId === action.lineId ? { ...line, quantity: Math.max(1, Math.min(50, action.quantity)) } : line) };
   if (action.type === "clear") return initialCart;
   return state;
 }
