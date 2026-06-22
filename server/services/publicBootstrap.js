@@ -1,3 +1,4 @@
+const businessConfig = require("../../shared/businessConfig.json");
 const { getOrderingAvailability } = require("./orderingAvailability");
 
 async function buildPublicBootstrap(models, config, now = new Date()) {
@@ -6,14 +7,15 @@ async function buildPublicBootstrap(models, config, now = new Date()) {
     models.DeliveryZone.find({ active: true }).sort({ sortOrder: 1, name: 1 }),
     models.Settings.findOne({ key: "restaurant" }),
   ]);
-  const effectiveSettings = settings || { orderingEnabled: false, minimumOrder: 1, closureReason: "Ordering is being configured." };
+  const effectiveSettings = settings || { orderingEnabled: false, minimumOrder: 1, closureReason: "Ordering is being configured.", supportPhone: businessConfig.supportPhone, supportEmail: businessConfig.supportEmail };
   return {
+    business: businessConfig,
     menu,
     deliveryZones,
     minimumOrder: effectiveSettings.minimumOrder,
     deliveryFee: config.deliveryFeePence,
-    supportPhone: effectiveSettings.supportPhone || "",
-    supportEmail: effectiveSettings.supportEmail || "",
+    supportPhone: effectiveSettings.supportPhone || businessConfig.supportPhone,
+    supportEmail: effectiveSettings.supportEmail || businessConfig.supportEmail,
     ordering: getOrderingAvailability(effectiveSettings, now),
   };
 }
