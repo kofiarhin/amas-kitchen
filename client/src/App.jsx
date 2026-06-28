@@ -5,6 +5,7 @@ import { fetchPublicBootstrap, placeOrder } from "./lib/api";
 import businessConfig from "../../shared/businessConfig.json";
 import AdminApp from "./admin/AdminApp";
 import ThemeMenu from "./components/ThemeMenu";
+import "./sections.css";
 
 const images = {
   hero: "https://res.cloudinary.com/dlsiabgiw/image/upload/v1782005862/amas-kitchen/pexels-ekrulila-20488746_kz18zy.jpg",
@@ -35,6 +36,7 @@ const fallbackMenu = [
   { _id: "featured-waakye", name: "Classic Waakye", description: "Rice and beans with shito, gari, kelewele and a soft egg.", basePrice: 10500, category: "Rice", available: true, images: [images.gallery1], addonGroups: [] },
   { _id: "featured-grill", name: "Charcoal Chicken", description: "Herb-marinated grilled chicken with fresh pepper sauce.", basePrice: 12000, category: "Grills", available: true, images: [images.story], addonGroups: [] },
 ];
+const signatureBadges = ["Customer Favourite", "House Special", "Most Ordered"];
 
 function navigate(path) { window.history.pushState({}, "", path); window.dispatchEvent(new PopStateEvent("popstate")); window.scrollTo({ top: 0, behavior: "smooth" }); }
 function Link({ href, className = "", children, onClick }) { return <a className={className} href={href} onClick={(event) => { event.preventDefault(); onClick?.(); navigate(href); }}>{children}</a>; }
@@ -65,11 +67,24 @@ function HeroCarousel() {
   </div>;
 }
 
+function SignatureDishCard({ item, index }) {
+  return <article className="signature-showcase-card">
+    <div className="signature-showcase-image"><img src={item.images?.[0] || images.gallery1} alt={item.name} /></div>
+    <div className="signature-showcase-copy">
+      <span className="signature-badge">{signatureBadges[index] || "Chef's Pick"}</span>
+      <h3>{item.name}</h3>
+      <Stars />
+      <p>{item.description}</p>
+      <div className="signature-showcase-footer"><b>{formatMoney(item.basePrice)}</b><Link href="/menu" className="text-link">Order this <ArrowRight size={15} /></Link></div>
+    </div>
+  </article>;
+}
+
 function HomePage({ menu }) {
   const featured = (menu?.length ? menu : fallbackMenu).slice(0, 3);
-  return <><section className="home-hero"><div className="hero-copy"><p className="eyebrow">Premium Ghanaian kitchen</p><h1>Authentic Ghanaian food, made with the warmth of home.</h1><p>Freshly prepared and delivered across Accra.</p><div className="hero-actions"><Link href="/menu" className="primary-button">Order Now <ArrowRight size={18} /></Link><Link href="/menu" className="secondary-button">Explore Menu</Link></div></div><HeroCarousel /></section><section className="section"><div className="section-heading"><p className="eyebrow">Signature dishes</p><h2>Three plates people come back for.</h2><Link href="/menu">View Full Menu <ArrowRight size={16} /></Link></div><div className="signature-grid">{featured.map((item) => <article className="premium-card" key={item._id}><img src={item.images?.[0] || images.gallery1} alt={item.name} /><div><h3>{item.name}</h3><p>{item.description}</p><b>{formatMoney(item.basePrice)}</b></div></article>)}</div></section><section className="split-section"><img src={images.story} alt="Ama's Kitchen food preparation" /><div><p className="eyebrow">Our story</p><h2>Food that feels cared for.</h2><p>Ama's Kitchen brings the comfort of Ghanaian home cooking into a polished daily dining experience. We cook fresh, layer flavour patiently and keep every order personal.</p><Link href="/about" className="text-link">Meet Ama's Kitchen</Link></div></section><GallerySection /><section className="section"><div className="section-heading"><p className="eyebrow">Services</p><h2>For lunches, gatherings and special tables.</h2><Link href="/services">Explore Services <ArrowRight size={16} /></Link></div><div className="service-strip">{services.map((service) => <article key={service}><h3>{service}</h3><p>Custom Ghanaian food support for moments that need more than the standard menu.</p></article>)}</div></section><section className="section testimonials"><p className="eyebrow">Kind words</p><div>{testimonials.map((item) => <article key={item.name}><Stars /><p>“{item.quote}”</p><b>{item.name}</b></article>)}</div></section><section className="final-cta"><p className="eyebrow">Ready to order?</p><h2>Choose your meal while the kitchen is open.</h2><Link href="/menu" className="primary-button">View Menu <ArrowRight size={18} /></Link></section></>;
+  return <><section className="home-hero"><div className="hero-copy"><p className="eyebrow">Premium Ghanaian kitchen</p><h1>Authentic Ghanaian food, made with the warmth of home.</h1><p>Freshly prepared and delivered across Accra.</p><div className="hero-actions"><Link href="/menu" className="primary-button">Order Now <ArrowRight size={18} /></Link><Link href="/menu" className="secondary-button">Explore Menu</Link></div></div><HeroCarousel /></section><section className="section signature-showcase-section"><div className="section-heading"><p className="eyebrow">Signature dishes</p><h2>Three plates people come back for.</h2><Link href="/menu">View Full Menu <ArrowRight size={16} /></Link></div><div className="signature-showcase-list">{featured.map((item, index) => <SignatureDishCard item={item} index={index} key={item._id} />)}</div></section><section className="split-section"><img src={images.story} alt="Ama's Kitchen food preparation" /><div><p className="eyebrow">Our story</p><h2>Food that feels cared for.</h2><p>Ama's Kitchen brings the comfort of Ghanaian home cooking into a polished daily dining experience. We cook fresh, layer flavour patiently and keep every order personal.</p><Link href="/about" className="text-link">Meet Ama's Kitchen</Link></div></section><GallerySection /><section className="section"><div className="section-heading"><p className="eyebrow">Services</p><h2>For lunches, gatherings and special tables.</h2><Link href="/services">Explore Services <ArrowRight size={16} /></Link></div><div className="service-strip">{services.map((service) => <article key={service}><h3>{service}</h3><p>Custom Ghanaian food support for moments that need more than the standard menu.</p></article>)}</div></section><section className="section testimonials"><p className="eyebrow">Kind words</p><div>{testimonials.map((item) => <article key={item.name}><Stars /><p>“{item.quote}”</p><b>{item.name}</b></article>)}</div></section><section className="final-cta"><p className="eyebrow">Ready to order?</p><h2>Choose your meal while the kitchen is open.</h2><Link href="/menu" className="primary-button">View Menu <ArrowRight size={18} /></Link></section></>;
 }
-function GallerySection() { return <section className="gallery-section" aria-label="Food gallery">{[images.gallery1, images.gallery2, images.gallery3, images.gallery4, images.gallery5].map((src, index) => <img key={src} src={src} alt={`Ama's Kitchen gallery dish ${index + 1}`} />)}</section>; }
+function GallerySection() { return <section className="gallery-section compact-gallery" aria-label="Food gallery">{[images.gallery1, images.gallery2, images.gallery3, images.gallery4, images.gallery5].map((src, index) => <img key={src} src={src} alt={`Ama's Kitchen gallery dish ${index + 1}`} />)}</section>; }
 
 function CategoryPills({ categories, active, setActive }) { return <div className="category-pills">{categories.map((category) => <button key={category} className={active === category ? "active" : ""} onClick={() => setActive(category)}>{category}</button>)}</div>; }
 function FoodCard({ item, canOrder, onAdd }) { const [quantity, setQuantity] = useState(1); return <article className="menu-card"><img src={item.images?.[0] || images.gallery1} alt={item.name} /><div><span>{item.category}</span><h3>{item.name}</h3><p>{item.description}</p><b>{formatMoney(item.basePrice)}</b></div><div className="menu-card-actions"><div className="quantity"><button aria-label="Decrease quantity" onClick={() => setQuantity(Math.max(1, quantity - 1))}><Minus size={14} /></button><span>{quantity}</span><button aria-label="Increase quantity" onClick={() => setQuantity(quantity + 1)}><Plus size={14} /></button></div><button disabled={!canOrder || !item.available} onClick={() => onAdd(item, quantity)}>Add</button></div></article>; }
