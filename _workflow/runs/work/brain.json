@@ -1,1 +1,37 @@
-{"runId":"work","items":[],"changeLog":[]}
+{
+  "runId": "work",
+  "items": [
+    {
+      "id": "run-work-design-brief-20260701",
+      "text": "Next Ama's Kitchen redesign block should focus on the homepage hero plus immediate post-hero conversion strip for client review.",
+      "status": "active",
+      "confidence": 0.85,
+      "source": {
+        "runId": "work",
+        "artifact": "_workflow/runs/work/spec.md",
+        "conversation": "workflow"
+      },
+      "createdAt": "2026-07-01T00:00:00Z",
+      "updatedAt": "2026-07-01T00:00:00Z",
+      "supersedes": [],
+      "history": []
+    }
+  ],
+  "changeLog": [
+    {
+      "id": "run-work-change-20260701-design-brief",
+      "text": "Saved design progress spec and client-review brief; implementation paused at approval gate.",
+      "status": "active",
+      "confidence": 1,
+      "source": {
+        "runId": "work",
+        "artifact": "_workflow/runs/work/spec.md",
+        "conversation": "workflow"
+      },
+      "createdAt": "2026-07-01T00:00:00Z",
+      "updatedAt": "2026-07-01T00:00:00Z",
+      "supersedes": [],
+      "history": []
+    }
+  ]
+}
