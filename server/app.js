@@ -44,6 +44,14 @@ app.get("/health", (req, res) => {
   });
 });
 
+app.get("/deploy-status", (req, res) => {
+  return res.status(200).json({
+    status: "deployed",
+    service: "amas-kitchen-api",
+    message: "CI/CD deployment check passed",
+  });
+});
+
 app.use("/api/public", publicRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/admin/auth", adminAuthRoutes);
