@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ci-cd-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     name: Validate app
@@ -33,19 +37,16 @@ jobs:
         run: npm test
 
       - name: Install frontend dependencies
-        working-directory: client
-        run: npm ci
+        run: npm ci --prefix client
 
       - name: Run frontend tests
-        working-directory: client
-        run: npm test
+        run: npm test --prefix client
 
       - name: Build frontend
-        working-directory: client
-        run: npm run build
+        run: npm run build --prefix client
 
   deploy-heroku:
-    name: Deploy backend to Heroku
+    name: Deploy app to Heroku
     runs-on: ubuntu-latest
     needs: validate
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -56,13 +57,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install Heroku CLI
-        run: curl https://cli-assets.heroku.com/install.sh | sh
+      - name: Verify Heroku secrets
+        run: |
+          test -n "${{ secrets.HEROKU_API_KEY }}"
+          test -n "${{ secrets.HEROKU_APP_NAME }}"
+          test -n "${{ secrets.HEROKU_EMAIL }}"
 
-      - name: Deploy to Heroku
+      - name: Deploy app to Heroku
         uses: akhileshns/heroku-deploy@v3.14.15
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           branch: main
+          usedocker: false
+          healthcheck: https://${{ secrets.HEROKU_APP_NAME }}.herokuapp.com/health
+          checkstring: ok
+          delay: 10
+          rollbackonhealthcheckfailed: true
