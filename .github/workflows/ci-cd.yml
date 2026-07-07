@@ -83,7 +83,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          WEB_URL=$(heroku apps:info --json --app "$HEROKU_APP_NAME" | node -e "let data='';process.stdin.on('data',c=>data+=c);process.stdin.on('end',()=>process.stdout.write(JSON.parse(data).web_url))")
+          WEB_URL=$(heroku apps:info --app "$HEROKU_APP_NAME" | awk '/Web URL:/ { print $3; exit }')
+          WEB_URL=${WEB_URL:-https://${HEROKU_APP_NAME}.herokuapp.com/}
           WEB_URL="${WEB_URL%/}"
 
           echo "Checking Heroku app at ${WEB_URL}"
