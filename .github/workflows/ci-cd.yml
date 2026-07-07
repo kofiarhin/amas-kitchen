@@ -63,15 +63,22 @@ jobs:
           test -n "${{ secrets.HEROKU_APP_NAME }}"
           test -n "${{ secrets.HEROKU_EMAIL }}"
 
+      - name: Install Heroku CLI
+        run: curl https://cli-assets.heroku.com/install.sh | sh
+
       - name: Deploy app to Heroku
-        uses: akhileshns/heroku-deploy@v3.14.15
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          branch: main
-          usedocker: false
-          healthcheck: https://${{ secrets.HEROKU_APP_NAME }}.herokuapp.com/health
-          checkstring: ok
-          delay: 10
-          rollbackonhealthcheckfailed: true
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        run: |
+          heroku apps:info --app "$HEROKU_APP_NAME"
+          git remote remove heroku 2>/dev/null || true
+          git remote add heroku "https://heroku:${HEROKU_API_KEY}@git.heroku.com/${HEROKU_APP_NAME}.git"
+          git push heroku HEAD:main --force
+
+      - name: Verify Heroku healthcheck
+        env:
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        run: |
+          sleep 10
+          curl --fail --retry 6 --retry-delay 10 --retry-all-errors "https://${HEROKU_APP_NAME}.herokuapp.com/health" | grep -q "ok"
