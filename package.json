@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "22.x",
+    "npm": "10.x"
+  },
   "scripts": {
     "start": "node server/server.js",
     "server": "nodemon server/server.js",
@@ -10,7 +14,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "jest --runInBand",
     "seed": "node server/scripts/seed.js",
-    "heroku-postbuild": "npm ci --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "npm ci --prefix client --include=dev && npm run build --prefix client"
   },
   "keywords": [],
   "author": "",
