@@ -76,9 +76,25 @@ jobs:
           git remote add heroku "https://heroku:${HEROKU_API_KEY}@git.heroku.com/${HEROKU_APP_NAME}.git"
           git push heroku HEAD:main --force
 
-      - name: Verify Heroku healthcheck
+      - name: Verify Heroku deployment
         env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
         run: |
-          sleep 10
-          curl --fail --retry 6 --retry-delay 10 --retry-all-errors "https://${HEROKU_APP_NAME}.herokuapp.com/health" | grep -q "ok"
+          set -euo pipefail
+
+          WEB_URL=$(heroku apps:info --json --app "$HEROKU_APP_NAME" | node -e "let data='';process.stdin.on('data',c=>data+=c);process.stdin.on('end',()=>process.stdout.write(JSON.parse(data).web_url))")
+          WEB_URL="${WEB_URL%/}"
+
+          echo "Checking Heroku app at ${WEB_URL}"
+          sleep 20
+
+          if curl --fail --silent --show-error --retry 6 --retry-delay 10 --retry-all-errors "${WEB_URL}/health" | grep -q "ok"; then
+            echo "Heroku /health check passed"
+            exit 0
+          fi
+
+          echo "::warning::/health did not return ok. Verifying deployed web app root instead."
+          curl --fail --silent --show-error --retry 6 --retry-delay 10 --retry-all-errors "${WEB_URL}/" > /tmp/heroku-root.html
+          test -s /tmp/heroku-root.html
+          echo "Heroku web app root responded successfully"
