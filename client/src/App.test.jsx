@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import businessConfig from "../../shared/businessConfig.json";
 import App from "./App";
@@ -21,7 +21,10 @@ describe("premium public website", () => {
     vi.stubGlobal("scrollTo", vi.fn());
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => ({ success: true, data: bootstrap }) }));
   });
-  afterEach(() => vi.unstubAllGlobals());
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
 
   test("turns the homepage into a marketing funnel without checkout fields", async () => {
     render(<App />);
@@ -39,5 +42,27 @@ describe("premium public website", () => {
     expect(await screen.findByRole("heading", { name: "Your order" })).toBeVisible();
     expect(screen.getAllByText("Smoky Jollof").length).toBeGreaterThan(1);
     expect(screen.getByRole("link", { name: "Checkout" })).toHaveAttribute("href", "/checkout");
+  });
+
+  test("autoplays the testimonial carousel while supporting pause and dot navigation", () => {
+    vi.useFakeTimers();
+    render(<App />);
+    const carousel = screen.getByRole("region", { name: "Customer testimonials carousel" });
+
+    expect(screen.getByText(/the jollof tasted like sunday at home/i)).toBeVisible();
+
+    act(() => vi.advanceTimersByTime(4000));
+    expect(screen.getByText(/our office lunch arrived warm/i)).toBeVisible();
+
+    fireEvent.mouseEnter(carousel);
+    act(() => vi.advanceTimersByTime(4000));
+    expect(screen.getByText(/our office lunch arrived warm/i)).toBeVisible();
+
+    fireEvent.mouseLeave(carousel);
+    act(() => vi.advanceTimersByTime(4000));
+    expect(screen.getByText(/has become our reliable choice/i)).toBeVisible();
+
+    fireEvent.click(screen.getByRole("button", { name: /show testimonial 1 from naa adoley/i }));
+    expect(screen.getByText(/the jollof tasted like sunday at home/i)).toBeVisible();
   });
 });

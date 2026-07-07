@@ -67,6 +67,35 @@ function HeroCarousel() {
   </div>;
 }
 
+function TestimonialCarousel() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const activeTestimonial = testimonials[active];
+
+  useEffect(() => {
+    if (paused) return undefined;
+    const timer = setInterval(() => setActive((index) => (index + 1) % testimonials.length), 4000);
+    return () => clearInterval(timer);
+  }, [paused]);
+
+  return <section className="section testimonials" aria-labelledby="testimonial-heading">
+    <div className="testimonial-heading">
+      <p className="eyebrow">Kind words</p>
+      <h2 id="testimonial-heading">What guests say after the last bite.</h2>
+    </div>
+    <div className="testimonial-carousel" role="region" aria-label="Customer testimonials carousel" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocus={() => setPaused(true)} onBlur={() => setPaused(false)}>
+      <article key={activeTestimonial.name} aria-live="polite" aria-label={`Testimonial from ${activeTestimonial.name}`}>
+        <Stars />
+        <p>"{activeTestimonial.quote}"</p>
+        <b>{activeTestimonial.name}</b>
+      </article>
+      <div className="testimonial-dots" aria-label="Choose testimonial">
+        {testimonials.map((item, index) => <button key={item.name} type="button" className={active === index ? "active" : ""} onClick={() => setActive(index)} aria-label={`Show testimonial ${index + 1} from ${item.name}`} aria-pressed={active === index} />)}
+      </div>
+    </div>
+  </section>;
+}
+
 function SignatureDishCard({ item, index }) {
   return <article className="signature-showcase-card">
     <div className="signature-showcase-image"><img src={item.images?.[0] || images.gallery1} alt={item.name} /></div>
@@ -82,7 +111,7 @@ function SignatureDishCard({ item, index }) {
 
 function HomePage({ menu }) {
   const featured = (menu?.length ? menu : fallbackMenu).slice(0, 3);
-  return <><section className="home-hero"><div className="hero-copy"><p className="eyebrow">Premium Ghanaian kitchen</p><h1>Authentic Ghanaian food, made with the warmth of home.</h1><p>Freshly prepared and delivered across Accra.</p><div className="hero-actions"><Link href="/menu" className="primary-button">Order Now <ArrowRight size={18} /></Link><Link href="/menu" className="secondary-button">Explore Menu</Link></div></div><HeroCarousel /></section><section className="section signature-showcase-section"><div className="section-heading"><p className="eyebrow">Signature dishes</p><h2>Three plates people come back for.</h2><Link href="/menu">View Full Menu <ArrowRight size={16} /></Link></div><div className="signature-showcase-list">{featured.map((item, index) => <SignatureDishCard item={item} index={index} key={item._id} />)}</div></section><section className="split-section"><img src={images.story} alt="Ama's Kitchen food preparation" /><div><p className="eyebrow">Our story</p><h2>Food that feels cared for.</h2><p>Ama's Kitchen brings the comfort of Ghanaian home cooking into a polished daily dining experience. We cook fresh, layer flavour patiently and keep every order personal.</p><Link href="/about" className="text-link">Meet Ama's Kitchen</Link></div></section><GallerySection /><section className="section"><div className="section-heading"><p className="eyebrow">Services</p><h2>For lunches, gatherings and special tables.</h2><Link href="/services">Explore Services <ArrowRight size={16} /></Link></div><div className="service-strip">{services.map((service) => <article key={service}><h3>{service}</h3><p>Custom Ghanaian food support for moments that need more than the standard menu.</p></article>)}</div></section><section className="section testimonials"><p className="eyebrow">Kind words</p><div>{testimonials.map((item) => <article key={item.name}><Stars /><p>“{item.quote}”</p><b>{item.name}</b></article>)}</div></section><section className="final-cta"><p className="eyebrow">Ready to order?</p><h2>Choose your meal while the kitchen is open.</h2><Link href="/menu" className="primary-button">View Menu <ArrowRight size={18} /></Link></section></>;
+  return <><section className="home-hero"><div className="hero-copy"><p className="eyebrow">Premium Ghanaian kitchen</p><h1>Authentic Ghanaian food, made with the warmth of home.</h1><p>Freshly prepared and delivered across Accra.</p><div className="hero-actions"><Link href="/menu" className="primary-button">Order Now <ArrowRight size={18} /></Link><Link href="/menu" className="secondary-button">Explore Menu</Link></div></div><HeroCarousel /></section><section className="section signature-showcase-section"><div className="section-heading"><p className="eyebrow">Signature dishes</p><h2>Three plates people come back for.</h2><Link href="/menu">View Full Menu <ArrowRight size={16} /></Link></div><div className="signature-showcase-list">{featured.map((item, index) => <SignatureDishCard item={item} index={index} key={item._id} />)}</div></section><section className="split-section"><img src={images.story} alt="Ama's Kitchen food preparation" /><div><p className="eyebrow">Our story</p><h2>Food that feels cared for.</h2><p>Ama's Kitchen brings the comfort of Ghanaian home cooking into a polished daily dining experience. We cook fresh, layer flavour patiently and keep every order personal.</p><Link href="/about" className="text-link">Meet Ama's Kitchen</Link></div></section><GallerySection /><section className="section"><div className="section-heading"><p className="eyebrow">Services</p><h2>For lunches, gatherings and special tables.</h2><Link href="/services">Explore Services <ArrowRight size={16} /></Link></div><div className="service-strip">{services.map((service) => <article key={service}><h3>{service}</h3><p>Custom Ghanaian food support for moments that need more than the standard menu.</p></article>)}</div></section><TestimonialCarousel /><section className="final-cta"><p className="eyebrow">Ready to order?</p><h2>Choose your meal while the kitchen is open.</h2><Link href="/menu" className="primary-button">View Menu <ArrowRight size={18} /></Link></section></>;
 }
 function GallerySection() { return <section className="gallery-section compact-gallery" aria-label="Food gallery">{[images.gallery1, images.gallery2, images.gallery3, images.gallery4, images.gallery5].map((src, index) => <img key={src} src={src} alt={`Ama's Kitchen gallery dish ${index + 1}`} />)}</section>; }
 
