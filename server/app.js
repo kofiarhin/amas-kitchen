@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -12,6 +13,7 @@ const { getConfig } = require("./config/env");
 const app = express();
 
 const { clientOrigins: allowedOrigins } = getConfig();
+const clientDistPath = path.resolve(__dirname, "../client/dist");
 
 app.disable("x-powered-by");
 app.use(helmet());
@@ -33,6 +35,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
+  if (process.env.NODE_ENV === "production") {
+    return res.sendFile(path.join(clientDistPath, "index.html"));
+  }
+
   return res.json({ message: "Welcome to Amas Kitchen" });
 });
 
@@ -57,6 +63,13 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/admin/auth", adminAuthRoutes);
 app.use("/api/admin/orders", adminOrderRoutes);
 app.use("/api/admin/manage", adminManagementRoutes);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(clientDistPath));
+  app.get(/^(?!\/api\/).*/, (req, res) => {
+    return res.sendFile(path.join(clientDistPath, "index.html"));
+  });
+}
 
 app.use((err, req, res, next) => {
   if (res.headersSent) {
