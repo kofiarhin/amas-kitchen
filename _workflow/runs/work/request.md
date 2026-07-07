@@ -1,1 +1,0 @@
-Implement a global light/dark theme system across the Vite React app with persisted Light/Dark UI controls, system-default first visit behavior, public/admin placement, CSS variables, no theme flash, and frontend tests.
